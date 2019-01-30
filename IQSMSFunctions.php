@@ -1,6 +1,7 @@
 <?php
 
   // интеграция CRM Clientbase и СМС-сервиса IQSMS 
+  // https://ClientbasePro.ru
   // https://iqsms.ru/api/api_rest-php/
   
 require_once 'common.php'; 
