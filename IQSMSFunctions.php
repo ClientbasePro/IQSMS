@@ -26,7 +26,7 @@ function IQSMS_SendSMS($phone, $text, $sender, $needSave=1, $data='') {
   if ($needSave && SMSLOG_TABLE) {
 	$sms = explode(";", $tmp);
 	$ins['f'.SMSLOG_FIELD_UID] = $sms[1];
-	if ($ins['f'.SMSLOG_FIELD_UID]) {
+	if ($ins['f'.SMSLOG_FIELD_UID] && 'accepted'==$sms[0]) {
   	  $ins['f'.SMSLOG_FIELD_PHONE] = $phone;
       $ins['f'.SMSLOG_FIELD_TEXT] = $text;
 	  if ($data) foreach ($data as $fieldId=>$value) $ins[$fieldId] = $value;
