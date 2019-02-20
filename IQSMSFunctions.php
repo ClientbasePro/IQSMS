@@ -25,11 +25,13 @@ function IQSMS_SendSMS($phone, $text, $sender, $needSave=1, $data='') {
     // сохранить в лог?
   if ($needSave && SMSLOG_TABLE) {
 	$sms = explode(";", $tmp);
-	$ins['f'.SMSLOG_FIELD_UID] = intval($sms[1]);
-	$ins['f'.SMSLOG_FIELD_PHONE] = $phone;
-    $ins['f'.SMSLOG_FIELD_TEXT] = $text;
-	if ($data) foreach ($data as $fieldId=>$value) $ins[$fieldId] = $value;
-    $tmp .= ';'.data_insert(SMSLOG_TABLE, EVENTS_ENABLE, $ins);
+	$ins['f'.SMSLOG_FIELD_UID] = $sms[1];
+	if ($ins['f'.SMSLOG_FIELD_UID]) {
+  	  $ins['f'.SMSLOG_FIELD_PHONE] = $phone;
+      $ins['f'.SMSLOG_FIELD_TEXT] = $text;
+	  if ($data) foreach ($data as $fieldId=>$value) $ins[$fieldId] = $value;
+      $tmp .= ';'.data_insert(SMSLOG_TABLE, EVENTS_ENABLE, $ins);
+    }
   }  
   return $tmp;
 }
