@@ -10,6 +10,8 @@ require_once 'common.php';
 function IQSMS_SendSMS($phone='', $text='', $sender='', $needSave=1, $data=[]) {
     // проверка и форматирование входных данных
   if (!defined('IQSMS_URL') || !defined('IQSMS_API_LOGIN') || !defined('IQSMS_API_PASSWORD')) return false;
+  if ('/'==substr(IQSMS_URL,-1)) $IQSMS_URL = substr(IQSMS_URL,0,-1);
+  else $IQSMS_URL = IQSMS_URL;
   $phone = SetNumber($phone);
   $text = form_input($text);
   if (!$sender && defined('IQSMS_DEFAULT_NAME')) $sender = IQSMS_DEFAULT_NAME;
@@ -18,7 +20,7 @@ function IQSMS_SendSMS($phone='', $text='', $sender='', $needSave=1, $data=[]) {
   $phone_ = rawurlencode($phone);
   $text_ = rawurlencode($text);
   $sender = rawurlencode($sender);
-  $url = IQSMS_URL.'send?phone='.$phone_.'&text='.$text_.'&sender='.$sender.'&login='.IQSMS_API_LOGIN.'&password='.IQSMS_API_PASSWORD;
+  $url = $IQSMS_URL.'/send?phone='.$phone_.'&text='.$text_.'&sender='.$sender.'&login='.IQSMS_API_LOGIN.'&password='.IQSMS_API_PASSWORD;
   $curl = curl_init($url);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
   $tmp = curl_exec($curl);    
@@ -40,7 +42,9 @@ function IQSMS_SendSMS($phone='', $text='', $sender='', $needSave=1, $data=[]) {
   // возвращает статус сообщения с $messageId
 function IQSMS_GetSMSStatus($messageId='') {
   if (!defined('IQSMS_URL') || !defined('IQSMS_API_LOGIN') || !defined('IQSMS_API_PASSWORD') || !$messageId) return false;
-  $url = IQSMS_URL.'status?&login='.IQSMS_API_LOGIN.'&password='.IQSMS_API_PASSWORD.'&id='.$messageId;
+  if ('/'==substr(IQSMS_URL,-1)) $IQSMS_URL = substr(IQSMS_URL,0,-1);
+  else $IQSMS_URL = IQSMS_URL;
+  $url = $IQSMS_URL.'/status?&login='.IQSMS_API_LOGIN.'&password='.IQSMS_API_PASSWORD.'&id='.$messageId;
   $curl = curl_init($url);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
   $tmp = curl_exec($curl);    
@@ -51,7 +55,9 @@ function IQSMS_GetSMSStatus($messageId='') {
   // возвращает список доступных подписей в СМС
 function IQSMS_GetSenders() {
   if (!defined('IQSMS_URL') || !defined('IQSMS_API_LOGIN') || !defined('IQSMS_API_PASSWORD')) return false;
-  $url = IQSMS_URL.'senders?&login='.IQSMS_API_LOGIN.'&password='.IQSMS_API_PASSWORD;
+  if ('/'==substr(IQSMS_URL,-1)) $IQSMS_URL = substr(IQSMS_URL,0,-1);
+  else $IQSMS_URL = IQSMS_URL;
+  $url = $IQSMS_URL.'/senders?&login='.IQSMS_API_LOGIN.'&password='.IQSMS_API_PASSWORD;
   $curl = curl_init($url);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
   $tmp = curl_exec($curl);    
